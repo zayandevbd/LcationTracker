@@ -254,7 +254,11 @@ public class MainActivity extends AppCompatActivity
         binding.tvTrackingStatus.setTextColor(statusColor);
 
         if (!isTracking) {
-            binding.cardLocationData.setVisibility(View.GONE);
+            // Only hide the location card if we have no cached location to show.
+            // On rotation with service stopped, we still want to display the last fix.
+            if (viewModel.getLatestLocation().getValue() == null) {
+                binding.cardLocationData.setVisibility(View.GONE);
+            }
         }
     }
 

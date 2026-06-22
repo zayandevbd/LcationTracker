@@ -82,6 +82,26 @@ public class LocationViewModel extends ViewModel {
         // Wire up the Room LiveData immediately — this doesn't execute a query
         // until an observer subscribes, so no wasted work on construction.
         this.locationHistory = repository.getAllLocations();
+
+        // Seed latestLocation from the database on construction.
+        // This ensures the "Last Known Location" card survives rotation —
+        // the ViewModel lives across config changes but MutableLiveData
+        // initialized to null loses the last value on re-subscription without this.
+        loadLatestLocationFromDb();
+    }
+
+    /**
+     * Query the database for the most recent location record and populate
+     * latestLocation LiveData. Called once in the constructor.
+     * Uses the repository's background executor — safe to call from any thread.
+     */
+    private void loadLatestLocationFromDb() {
+        repository.getLatestLocation(location -> {
+            if (location != null) {
+                // postValue is thread-safe — repository callback runs on bg thread.
+                latestLocation.postValue(location);
+            }
+        });
     }
 
     // ─── Public LiveData Accessors (read-only) ────────────────────────────────

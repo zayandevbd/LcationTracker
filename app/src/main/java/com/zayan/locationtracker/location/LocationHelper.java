@@ -38,7 +38,7 @@ public class LocationHelper {
         this.locationCallback = buildLocationCallback();
     }
 
-    @SuppressWarnings("MissingPermission") // permission checked by caller
+    @SuppressWarnings("MissingPermission") 
     public void startUpdates(long intervalMs) {
         if (isRequestingUpdates) {
             Log.d(TAG, "startUpdates: already active — ignoring.");
@@ -57,7 +57,7 @@ public class LocationHelper {
         });
     }
 
-    @SuppressWarnings("MissingPermission") // permission checked by caller
+    @SuppressWarnings("MissingPermission")
     public void stopUpdates() {
         if (!isRequestingUpdates) {
             Log.d(TAG, "stopUpdates: not active — ignoring.");
@@ -74,7 +74,7 @@ public class LocationHelper {
                 });
     }
 
-    @SuppressWarnings("MissingPermission") // permission checked by caller
+    @SuppressWarnings("MissingPermission") 
     public void updateInterval(long newIntervalMs) {
         if (!isRequestingUpdates) {
             Log.d(TAG, "updateInterval: not active, interval will apply on next start.");

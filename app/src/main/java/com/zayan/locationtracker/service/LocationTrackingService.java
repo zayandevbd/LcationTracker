@@ -67,6 +67,9 @@ public class LocationTrackingService extends Service
     private final SimpleDateFormat timeFormatter =
             new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
 
+    /** Prevents "GPS unavailable" toast from spamming if availability flickers. */
+    private boolean gpsUnavailableToastShown = false;
+
     // ─── Service Lifecycle ────────────────────────────────────────────────────
 
     @Override
@@ -171,6 +174,7 @@ public class LocationTrackingService extends Service
             return;
         }
 
+        gpsUnavailableToastShown = false; // reset for new tracking session
         long intervalMs = appSettings.getIntervalMs();
         locationHelper.startUpdates(intervalMs);
 
@@ -243,18 +247,22 @@ public class LocationTrackingService extends Service
 
     /**
      * Called by LocationHelper when GPS availability changes.
-     * Happens when the user turns off location services mid-tracking.
+     * Only shows the "unavailable" toast once per outage — not on every
+     * repeated callback. Resets when GPS becomes available again.
      */
     @Override
     public void onLocationAvailabilityChanged(boolean available) {
         Log.d(TAG, "onLocationAvailabilityChanged: " + available);
-        if (!available) {
-            // Update notification to warn user GPS is unavailable.
-            mainHandler.post(() -> {
-                Toast.makeText(getApplicationContext(),
-                        "GPS unavailable — waiting for signal...",
-                        Toast.LENGTH_SHORT).show();
-            });
+        if (!available && !gpsUnavailableToastShown) {
+            gpsUnavailableToastShown = true;
+            mainHandler.post(() ->
+                    Toast.makeText(getApplicationContext(),
+                            "GPS signal lost — waiting to reconnect...",
+                            Toast.LENGTH_SHORT).show()
+            );
+        } else if (available) {
+            // GPS recovered — reset so we can warn again if it drops again later.
+            gpsUnavailableToastShown = false;
         }
     }
 

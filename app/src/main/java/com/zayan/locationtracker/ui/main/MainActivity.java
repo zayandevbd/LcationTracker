@@ -163,7 +163,8 @@ public class MainActivity extends AppCompatActivity
 
     private void onStartTrackingClicked() {
         if (viewModel.isCurrentlyTracking()) {
-            Log.d(TAG, "Already tracking — ignoring start tap.");
+            // Give the user clear feedback instead of silently ignoring the tap.
+            showInfoSnackbar(getString(R.string.toast_already_tracking));
             return;
         }
 
@@ -228,6 +229,17 @@ public class MainActivity extends AppCompatActivity
 
         binding.btnStartTracking.setEnabled(!isTracking);
         binding.btnStopTracking.setEnabled(isTracking);
+
+        // Swap icons to reflect state clearly:
+        // When tracking: Start shows location-pin (running indicator), Stop shows stop-square
+        // When stopped:  Start shows play-arrow, Stop shows play-arrow (dimmed, disabled)
+        if (isTracking) {
+            binding.btnStartTracking.setIconResource(R.drawable.ic_location_notification);
+            binding.btnStopTracking.setIconResource(R.drawable.ic_stop);
+        } else {
+            binding.btnStartTracking.setIconResource(R.drawable.ic_play_arrow);
+            binding.btnStopTracking.setIconResource(R.drawable.ic_stop);
+        }
 
         binding.tvTrackingStatus.setText(
                 isTracking

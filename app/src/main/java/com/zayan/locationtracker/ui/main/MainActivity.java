@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -163,8 +164,7 @@ public class MainActivity extends AppCompatActivity
 
     private void onStartTrackingClicked() {
         if (viewModel.isCurrentlyTracking()) {
-            // Give the user clear feedback instead of silently ignoring the tap.
-            showInfoSnackbar(getString(R.string.toast_already_tracking));
+            Toast.makeText(this, getString(R.string.toast_already_tracking), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity
 
     private void onStopTrackingClicked() {
         if (!viewModel.isCurrentlyTracking()) {
-            Log.d(TAG, "Not tracking — ignoring stop tap.");
+            Toast.makeText(this, getString(R.string.toast_not_tracking), Toast.LENGTH_SHORT).show();
             return;
         }
         ServiceUtils.stopTracking(this);

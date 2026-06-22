@@ -31,7 +31,8 @@
 
     <string name="status_tracking_active">● Tracking Active</string>
     <string name="status_tracking_inactive">● Tracking Inactive</string>
-    <string name="toast_already_tracking">Tracking is already running</string>
+    <string name="toast_already_tracking">Tracking is already started</string>
+    <string name="toast_not_tracking">Tracking is not started yet</string>
 
     <!-- Default interval label shown before any user selection -->
     <string name="interval_5_min">5 minutes</string>

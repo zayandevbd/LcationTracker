@@ -4,6 +4,11 @@ A production-quality background location tracking application for Android, built
 
 ---
 
+## 🎥 Demo
+
+▶ **Watch Demo Video**
+
+[Click here to view demo](media/Location.mp4)
 ## Features
 
 - Continuous background location tracking that survives:

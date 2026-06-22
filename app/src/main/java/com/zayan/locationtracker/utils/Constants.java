@@ -20,12 +20,6 @@ public final class Constants {
 
     // ─── Location Update Intervals ────────────────────────────────────────────
 
-    /** One minute in milliseconds */
-    public static final long INTERVAL_1_MIN_MS  = 1  * 60 * 1000L;
-
-    /** Three minutes in milliseconds */
-    public static final long INTERVAL_3_MIN_MS  = 3  * 60 * 1000L;
-
     /** Five minutes in milliseconds — the default tracking interval */
     public static final long INTERVAL_5_MIN_MS  = 5  * 60 * 1000L;
 
@@ -50,8 +44,6 @@ public final class Constants {
      * Index in this array maps 1:1 with INTERVAL_LABELS below.
      */
     public static final long[] INTERVAL_OPTIONS_MS = {
-            INTERVAL_1_MIN_MS,
-            INTERVAL_3_MIN_MS,
             INTERVAL_5_MIN_MS,
             INTERVAL_10_MIN_MS,
             INTERVAL_15_MIN_MS,
@@ -64,8 +56,6 @@ public final class Constants {
      * Displayed in the Settings screen spinner/radio buttons.
      */
     public static final String[] INTERVAL_LABELS = {
-            "1 minute",
-            "3 minutes",
             "5 minutes",
             "10 minutes",
             "15 minutes",
@@ -73,18 +63,14 @@ public final class Constants {
     };
 
     /**
-     * Fastest interval — the minimum time between location callbacks.
-     * FusedLocationProviderClient may deliver updates faster than the
-     * requested interval if another app is already requesting high-frequency
-     * updates. This cap prevents the service from being overwhelmed.
-     * Set to half the minimum selectable interval (30 seconds).
+     * Fastest interval cap — minimum time between location callbacks
+     * even if another app is requesting high-frequency updates.
      */
-    public static final long FASTEST_INTERVAL_MS = 30 * 1000L;
+    public static final long FASTEST_INTERVAL_MS = 2 * 60 * 1000L; // 2 minutes
 
     /**
      * Minimum displacement in metres before a location update is delivered.
      * Set to 0 — we want time-based updates regardless of movement.
-     * A non-zero value would skip updates for stationary devices.
      */
     public static final float MIN_DISPLACEMENT_METERS = 0f;
 
@@ -214,5 +200,5 @@ public final class Constants {
      * Default index into INTERVAL_OPTIONS_MS pointing to the 5-minute option.
      * Used to pre-select the correct spinner item on first launch.
      */
-    public static final int DEFAULT_INTERVAL_INDEX = 2; // index of INTERVAL_5_MIN_MS
+    public static final int DEFAULT_INTERVAL_INDEX = 0; // index of INTERVAL_5_MIN_MS
 }

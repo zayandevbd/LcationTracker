@@ -54,8 +54,9 @@
     <!-- %s = newly saved interval label -->
     <string name="settings_interval_saved">Interval updated to %s</string>
     <string name="settings_interval_info">
-        Shorter intervals (1–3 min) increase battery usage significantly.
-        For most use cases, 5–15 minutes provides a good balance.
+        Changes take effect immediately without restarting the app.
+        The default interval is 5 minutes. Choose a longer interval
+        to conserve battery during extended tracking sessions.
     </string>
     <string name="settings_service_running">● Service running</string>
     <string name="settings_service_stopped">● Service stopped</string>

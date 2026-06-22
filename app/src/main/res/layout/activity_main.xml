@@ -62,24 +62,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/tv_interval_label" />
 
-                <!--
-                    Animated pulse dot — visible only when tracking is active.
-                    Controlled via ObjectAnimator in MainActivity (scale + alpha).
-                    Sits to the right of the status text, left of the status value.
-                -->
-                <View
-                    android:id="@+id/view_pulse_dot"
-                    android:layout_width="10dp"
-                    android:layout_height="10dp"
-                    android:background="@drawable/ic_tracking_pulse"
-                    android:visibility="gone"
-                    app:layout_constraintTop_toTopOf="@id/tv_tracking_status"
-                    app:layout_constraintBottom_toBottomOf="@id/tv_tracking_status"
-                    app:layout_constraintEnd_toStartOf="@id/tv_tracking_status"
-                    app:layout_constraintStart_toEndOf="@id/tv_status_label"
-                    android:layout_marginEnd="6dp"
-                    tools:visibility="visible" />
-
                 <!-- Tracking Status Value — observed via LiveData -->
                 <TextView
                     android:id="@+id/tv_tracking_status"

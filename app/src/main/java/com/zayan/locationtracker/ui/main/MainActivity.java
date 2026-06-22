@@ -1,7 +1,5 @@
 package com.zayan.locationtracker.ui.main;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +7,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,9 +59,6 @@ public class MainActivity extends AppCompatActivity
     private final SimpleDateFormat timeFormatter =
             new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.getDefault());
 
-    /** Repeating pulse animation shown on the status dot while tracking is active. */
-    private AnimatorSet pulseAnimator;
-
     // ─── Lifecycle ────────────────────────────────────────────────────────────
 
     @Override
@@ -111,7 +105,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        stopPulseAnimation(); // cancel animator before nulling binding
         binding = null;
     }
 
@@ -247,71 +240,8 @@ public class MainActivity extends AppCompatActivity
                 : getColor(R.color.status_inactive);
         binding.tvTrackingStatus.setTextColor(statusColor);
 
-        if (isTracking) {
-            startPulseAnimation();
-        } else {
-            stopPulseAnimation();
+        if (!isTracking) {
             binding.cardLocationData.setVisibility(View.GONE);
-        }
-    }
-
-    /**
-     * Start the repeating pulse animation on the green dot next to the status label.
-     * Uses two ObjectAnimators (scaleX/scaleY and alpha) in an infinite AnimatorSet.
-     * The dot scales from 1x to 2x and fades out simultaneously, then repeats —
-     * giving a clear "heartbeat" signal that the service is live.
-     */
-    private void startPulseAnimation() {
-        if (binding == null) return;
-
-        binding.viewPulseDot.setVisibility(View.VISIBLE);
-        binding.viewPulseDot.setScaleX(1f);
-        binding.viewPulseDot.setScaleY(1f);
-        binding.viewPulseDot.setAlpha(1f);
-
-        // Cancel any existing animation before starting a new one.
-        if (pulseAnimator != null) {
-            pulseAnimator.cancel();
-        }
-
-        ObjectAnimator scaleX = ObjectAnimator.ofFloat(binding.viewPulseDot, "scaleX", 1f, 2.4f);
-        ObjectAnimator scaleY = ObjectAnimator.ofFloat(binding.viewPulseDot, "scaleY", 1f, 2.4f);
-        ObjectAnimator alpha  = ObjectAnimator.ofFloat(binding.viewPulseDot, "alpha", 1f, 0f);
-
-        scaleX.setDuration(900);
-        scaleY.setDuration(900);
-        alpha.setDuration(900);
-
-        scaleX.setRepeatCount(ObjectAnimator.INFINITE);
-        scaleY.setRepeatCount(ObjectAnimator.INFINITE);
-        alpha.setRepeatCount(ObjectAnimator.INFINITE);
-
-        scaleX.setRepeatMode(ObjectAnimator.RESTART);
-        scaleY.setRepeatMode(ObjectAnimator.RESTART);
-        alpha.setRepeatMode(ObjectAnimator.RESTART);
-
-        scaleX.setInterpolator(new AccelerateDecelerateInterpolator());
-        scaleY.setInterpolator(new AccelerateDecelerateInterpolator());
-
-        pulseAnimator = new AnimatorSet();
-        pulseAnimator.playTogether(scaleX, scaleY, alpha);
-        pulseAnimator.start();
-    }
-
-    /**
-     * Stop the pulse animation and hide the dot.
-     * Called when tracking stops or the Activity is destroyed.
-     */
-    private void stopPulseAnimation() {
-        if (pulseAnimator != null) {
-            pulseAnimator.cancel();
-            pulseAnimator = null;
-        }
-        if (binding != null) {
-            binding.viewPulseDot.setVisibility(View.GONE);
-            binding.viewPulseDot.setScaleX(1f);
-            binding.viewPulseDot.setScaleY(1f);
-            binding.viewPulseDot.setAlpha(1f);
         }
     }
 

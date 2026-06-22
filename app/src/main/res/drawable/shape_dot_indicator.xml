@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Small filled circle used as a visual indicator on location history cards.
+    Color matches the app's primary color for brand consistency.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="@color/color_primary" />
+</shape>

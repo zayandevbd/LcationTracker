@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:background="@color/background_main"
+    tools:context=".ui.main.MainActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="32dp">
+
+        <!-- ── App Title ─────────────────────────────────────────────────── -->
+
+        <TextView
+            android:id="@+id/tv_app_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/app_name"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            android:textColor="@color/color_primary"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- ── Status Card ──────────────────────────────────────────────── -->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_status"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/surface_card"
+            app:layout_constraintTop_toBottomOf="@id/tv_app_title"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <!-- Tracking Status Label -->
+                <TextView
+                    android:id="@+id/tv_status_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_status"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                    android:textColor="@color/text_secondary"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <!-- Tracking Status Value — observed via LiveData -->
+                <TextView
+                    android:id="@+id/tv_tracking_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/status_tracking_inactive"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                    android:textStyle="bold"
+                    android:textColor="@color/status_inactive"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_status_label"
+                    tools:text="● Active" />
+
+                <!-- Interval Label -->
+                <TextView
+                    android:id="@+id/tv_interval_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/label_interval_static"
+                    android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+                    android:textColor="@color/text_secondary"
+                    app:layout_constraintTop_toBottomOf="@id/tv_status_label"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <!-- Current Interval Value -->
+                <TextView
+                    android:id="@+id/tv_current_interval"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/interval_5_min"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                    android:textColor="@color/text_primary"
+                    app:layout_constraintTop_toTopOf="@id/tv_interval_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tv_interval_label"
+                    tools:text="5 minutes" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── Location Data Card (hidden until first fix) ──────────────── -->
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/card_location_data"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:visibility="gone"
+            app:cardElevation="2dp"
+            app:cardCornerRadius="12dp"
+            app:cardBackgroundColor="@color/surface_card"
+            app:layout_constraintTop_toBottomOf="@id/card_status"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:visibility="visible">
+
+            <!-- Group for hiding/showing all location fields together -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/group_location_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/tv_location_header"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/label_last_location"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+                    android:textColor="@color/color_primary"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <!-- Latitude -->
+                <TextView
+                    android:id="@+id/tv_current_lat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/placeholder_latitude"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="@color/text_primary"
+                    android:drawablePadding="6dp"
+                    app:layout_constraintTop_toBottomOf="@id/tv_location_header"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Latitude: 37.421998" />
+
+                <!-- Longitude -->
+                <TextView
+                    android:id="@+id/tv_current_lon"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/placeholder_longitude"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="@color/text_primary"
+                    app:layout_constraintTop_toBottomOf="@id/tv_current_lat"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Longitude: -122.084000" />
+
+                <!-- Accuracy -->
+                <TextView
+                    android:id="@+id/tv_current_accuracy"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/placeholder_accuracy"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="@color/text_primary"
+                    app:layout_constraintTop_toBottomOf="@id/tv_current_lon"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Accuracy: 5.0 m" />
+
+                <!-- Time -->
+                <TextView
+                    android:id="@+id/tv_current_time"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/placeholder_time"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="@color/text_secondary"
+                    app:layout_constraintTop_toBottomOf="@id/tv_current_accuracy"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="Time: 14:32:01 21/06/2026" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- ── Control Buttons ───────────────────────────────────────────── -->
+
+        <!-- Start Tracking Button — green background, white text -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_start_tracking"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/btn_start_tracking"
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:contentDescription="@string/btn_start_tracking"
+            app:icon="@drawable/ic_play_arrow"
+            app:iconGravity="textStart"
+            app:iconTint="@color/white"
+            app:cornerRadius="12dp"
+            app:backgroundTint="@color/color_start_green"
+            app:layout_constraintTop_toBottomOf="@id/card_location_data"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- Stop Tracking Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_stop_tracking"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/btn_stop_tracking"
+            android:textSize="16sp"
+            android:enabled="false"
+            android:contentDescription="@string/btn_stop_tracking"
+            app:icon="@drawable/ic_stop"
+            app:iconGravity="textStart"
+            app:cornerRadius="12dp"
+            app:backgroundTint="@color/color_stop"
+            app:layout_constraintTop_toBottomOf="@id/btn_start_tracking"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- ── Navigation Row ────────────────────────────────────────────── -->
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_nav_row"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:layout_constraintTop_toBottomOf="@id/btn_stop_tracking"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- History Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_open_history"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:text="@string/btn_history"
+                android:contentDescription="@string/btn_history"
+                app:icon="@drawable/ic_history"
+                app:iconGravity="textStart"
+                app:cornerRadius="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/btn_open_settings"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+            <!-- 8dp gap between the two nav buttons -->
+            <View
+                android:id="@+id/nav_divider"
+                android:layout_width="8dp"
+                android:layout_height="0dp"
+                app:layout_constraintStart_toEndOf="@id/btn_open_history"
+                app:layout_constraintEnd_toStartOf="@id/btn_open_settings"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <!-- Settings Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_open_settings"
+                style="@style/Widget.Material3.Button.OutlinedButton"
+                android:layout_width="0dp"
+                android:layout_height="48dp"
+                android:text="@string/btn_settings"
+                android:contentDescription="@string/btn_settings"
+                app:icon="@drawable/ic_settings"
+                app:iconGravity="textStart"
+                app:cornerRadius="10dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/btn_open_history"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

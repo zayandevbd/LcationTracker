@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_main"
+    tools:context=".ui.history.HistoryActivity">
+
+    <!-- ── AppBar ────────────────────────────────────────────────────────── -->
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar_history"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        app:liftOnScroll="true"
+        app:liftOnScrollTargetViewId="@id/recycler_history">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar_history"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/color_primary"
+            app:title="@string/title_history"
+            app:titleTextColor="@color/white"
+            app:navigationIconTint="@color/white"
+            app:layout_scrollFlags="scroll|enterAlways|snap" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- ── Content ───────────────────────────────────────────────────────── -->
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <!-- Loading spinner — shown while Room LiveData delivers first result -->
+            <ProgressBar
+                android:id="@+id/progress_loading"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="80dp"
+                android:indeterminateTint="@color/color_primary"
+                android:visibility="visible"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:visibility="gone" />
+
+            <!-- Location history list — hidden until data arrives -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_history"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="12dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="16dp"
+                android:clipToPadding="false"
+                android:scrollbars="vertical"
+                android:visibility="gone"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:listitem="@layout/item_location"
+                tools:visibility="visible"
+                tools:itemCount="6" />
+
+            <!-- Empty state — shown only after data loads AND list is empty -->
+            <LinearLayout
+                android:id="@+id/layout_empty_state"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:paddingTop="80dp"
+                android:paddingHorizontal="32dp"
+                android:visibility="gone"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <!-- Simple map-pin icon drawable instead of emoji -->
+                <ImageView
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:src="@drawable/ic_location_notification"
+                    android:alpha="0.35"
+                    android:layout_gravity="center"
+                    app:tint="@color/color_primary"
+                    android:contentDescription="@null" />
+
+                <TextView
+                    android:id="@+id/tv_empty_state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/empty_history_message"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+                    android:textColor="@color/text_secondary"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:id="@+id/tv_empty_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/empty_history_hint"
+                    android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                    android:textColor="@color/text_hint"
+                    android:gravity="center"
+                    android:layout_gravity="center" />
+
+            </LinearLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

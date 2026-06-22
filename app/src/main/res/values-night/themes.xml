@@ -1,0 +1,17 @@
+<resources>
+
+    <style name="Base.Theme.LocationTracker" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/color_primary_light</item>
+        <item name="colorPrimaryDark">@color/color_primary</item>
+        <item name="colorAccent">@color/color_accent</item>
+
+        <!-- Dark window background -->
+        <item name="android:windowBackground">@color/background_main</item>
+
+        <!-- Dark mode status bar — use a dark surface color -->
+        <item name="android:statusBarColor">@color/background_main</item>
+    </style>
+
+    <style name="Theme.LocationTracker" parent="Base.Theme.LocationTracker" />
+
+</resources>

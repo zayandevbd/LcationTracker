@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="6dp"
+    app:cardElevation="2dp"
+    app:cardCornerRadius="10dp"
+    app:cardBackgroundColor="@color/surface_card"
+    app:strokeWidth="0dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
+
+        <!-- ── Timestamp row ──────────────────────────────────────────────── -->
+
+        <!-- Small dot indicator — visually separates each card entry -->
+        <View
+            android:id="@+id/view_dot_indicator"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:background="@drawable/shape_dot_indicator"
+            app:layout_constraintTop_toTopOf="@id/tv_item_timestamp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_item_timestamp"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_item_timestamp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+            android:textColor="@color/color_primary"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@id/view_dot_indicator"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="21 Jun 2026  14:32:01" />
+
+        <!-- ── Divider ────────────────────────────────────────────────────── -->
+
+        <View
+            android:id="@+id/divider_item"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/divider_color"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_timestamp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- ── Coordinates row ────────────────────────────────────────────── -->
+
+        <!-- Latitude — left half -->
+        <TextView
+            android:id="@+id/tv_item_latitude"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="@color/text_primary"
+            app:layout_constraintTop_toBottomOf="@id/divider_item"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_item_longitude"
+            tools:text="Lat: 37.421998°" />
+
+        <!-- Longitude — right half -->
+        <TextView
+            android:id="@+id/tv_item_longitude"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="@color/text_primary"
+            app:layout_constraintTop_toBottomOf="@id/divider_item"
+            app:layout_constraintStart_toEndOf="@id/tv_item_latitude"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Lon: -122.084°" />
+
+        <!-- ── Accuracy + Provider row ────────────────────────────────────── -->
+
+        <!-- Accuracy — left half -->
+        <TextView
+            android:id="@+id/tv_item_accuracy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@color/text_secondary"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_latitude"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/tv_item_provider"
+            tools:text="Accuracy: ±5.0 m" />
+
+        <!-- Provider — right half -->
+        <TextView
+            android:id="@+id/tv_item_provider"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="@color/text_secondary"
+            android:gravity="end"
+            app:layout_constraintTop_toBottomOf="@id/tv_item_longitude"
+            app:layout_constraintStart_toEndOf="@id/tv_item_accuracy"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="Via: Fused" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

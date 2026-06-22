@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- ─── Location Permissions ──────────────────────────────────────────── -->
+
+    <!-- Coarse location: network/cell tower based, lower accuracy -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Fine location: GPS based, high accuracy — requires coarse as well -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!--
+        Background location: required on API 29+ for location updates when app is not in foreground.
+        Must be requested SEPARATELY from fine/coarse — Android enforces a two-step grant flow.
+        On API 29 this is granted together with fine location; on API 30+ it requires a dedicated
+        settings screen visit (cannot be shown in a runtime dialog alongside other permissions).
+    -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+
+    <!-- ─── Service Permissions ───────────────────────────────────────────── -->
+
+    <!--
+        Required since API 28 to start a foreground service.
+        This is a normal permission — granted automatically at install.
+    -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!--
+        Required since API 34 (Android 14) when foregroundServiceType="location".
+        Without this, calling startForeground() with a location service type throws
+        SecurityException on API 34+ devices. This is a normal permission.
+    -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+
+    <!-- ─── Notification Permission ───────────────────────────────────────── -->
+
+    <!--
+        Required since API 33 (Android 13) to show notifications.
+        The foreground service notification is suppressed silently without this on API 33+.
+        We request this at runtime in PermissionManager.
+    -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <!-- ─── System Permissions ───────────────────────────────────────────── -->
+
+    <!-- Allows re-launching the tracking service after device reboot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!--
+        Keeps the CPU running during location callbacks when the screen is off.
+        Without this, Doze mode can suspend background threads between location updates.
+    -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!--
+        Allows us to prompt the user to exclude this app from battery optimization.
+        We use this to prevent the OS from killing our foreground service in aggressive
+        battery saver modes (common on OEM ROMs like MIUI, OneUI, ColorOS).
+    -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <!-- ─── Hardware Features ────────────────────────────────────────────── -->
+
+    <!--
+        Declare that GPS is used but not strictly required — allows install on
+        devices without GPS (they will fall back to network provider).
+    -->
+    <uses-feature
+        android:name="android.hardware.location.gps"
+        android:required="false" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.LocationTracker">
+
+        <!-- ─── Activities ─────────────────────────────────────────────── -->
+
+        <activity
+            android:name=".ui.main.MainActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.history.HistoryActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity">
+            <!-- Support library back navigation for API < 16 -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:exported="false"
+            android:parentActivityName=".ui.main.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.main.MainActivity" />
+        </activity>
+
+        <!-- ─── Foreground Service ─────────────────────────────────────── -->
+
+        <!--
+            foregroundServiceType="location" is required since API 29.
+            Without it, startForeground() throws on API 29+ even if we have
+            the location permission. On API 34+ we also need FOREGROUND_SERVICE_LOCATION
+            permission declared above.
+
+            exported="false" — this service should never be started by external apps.
+        -->
+        <service
+            android:name=".service.LocationTrackingService"
+            android:exported="false"
+            android:foregroundServiceType="location"
+            android:stopWithTask="false" />
+        <!--
+            stopWithTask="false" is intentional: we want the service to survive
+            when the user swipes the app away from Recents. The service handles
+            this in onTaskRemoved() and via START_STICKY.
+        -->
+
+        <!-- ─── Broadcast Receivers ────────────────────────────────────── -->
+
+        <!--
+            Fires when device finishes booting. Restarts tracking service if
+            the user had tracking active before the reboot.
+            exported="true" required — this receives a system broadcast.
+        -->
+        <receiver
+            android:name=".receiver.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <!-- HTC devices use this action instead of BOOT_COMPLETED -->
+            </intent-filter>
+        </receiver>
+
+        <!--
+            Internal receiver used by the service to schedule a self-restart
+            after being killed. Only receives broadcasts from within this app.
+            exported="false" — never triggered by external apps.
+        -->
+        <receiver
+            android:name=".receiver.ServiceRestartReceiver"
+            android:exported="false" />
+
+    </application>
+
+</manifest>

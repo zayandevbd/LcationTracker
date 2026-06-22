@@ -1,0 +1,23 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Base.Theme.LocationTracker" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Primary brand color — used by MaterialToolbar background,
+             MaterialButton default tint, and other primary-colored components -->
+        <item name="colorPrimary">@color/color_primary</item>
+        <item name="colorPrimaryDark">@color/color_primary_dark</item>
+        <item name="colorAccent">@color/color_accent</item>
+
+        <!-- Window background matches our background_main color resource
+             so the transition between the window and first layout is seamless -->
+        <item name="android:windowBackground">@color/background_main</item>
+
+        <!-- Status bar color matches primary on light theme -->
+        <item name="android:statusBarColor">@color/color_primary_dark</item>
+
+        <!-- Toolbar (ActionBar) text appearance -->
+        <item name="toolbarStyle">@style/Widget.MaterialComponents.Toolbar.Primary</item>
+    </style>
+
+    <style name="Theme.LocationTracker" parent="Base.Theme.LocationTracker" />
+
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ── Brand / Primary Palette ──────────────────────────────────────────── -->
+    <color name="color_primary">#1565C0</color>        <!-- Material Blue 800 -->
+    <color name="color_primary_dark">#003c8f</color>   <!-- Darker variant for status bar -->
+    <color name="color_primary_light">#5e92f3</color>  <!-- Lighter for accents -->
+    <color name="color_accent">#FF6D00</color>         <!-- Deep Orange — stop/action accent -->
+
+    <!-- ── Semantic: Buttons ─────────────────────────────────────────────────── -->
+    <color name="color_stop">#C62828</color>           <!-- Red 800 — stop tracking button -->
+    <color name="color_start_green">#2E7D32</color>    <!-- Green 800 — start tracking button -->
+
+    <!-- ── Semantic: Status Indicators ──────────────────────────────────────── -->
+    <color name="status_active">#2E7D32</color>        <!-- Green 800 — tracking running -->
+    <color name="status_inactive">#757575</color>      <!-- Grey 600 — tracking stopped -->
+
+    <!-- ── Backgrounds ───────────────────────────────────────────────────────── -->
+    <color name="background_main">#F5F5F5</color>      <!-- Grey 100 — screen background -->
+    <color name="surface_card">#FFFFFF</color>         <!-- White — card surfaces -->
+    <color name="surface_info">#E3F2FD</color>         <!-- Blue 50 — info highlight cards -->
+
+    <!-- ── Text Hierarchy ────────────────────────────────────────────────────── -->
+    <color name="text_primary">#212121</color>         <!-- Grey 900 — primary body text -->
+    <color name="text_secondary">#616161</color>       <!-- Grey 700 — secondary / labels -->
+    <color name="text_hint">#9E9E9E</color>            <!-- Grey 500 — hint / placeholder -->
+
+    <!-- ── Dividers & Borders ────────────────────────────────────────────────── -->
+    <color name="divider_color">#E0E0E0</color>        <!-- Grey 300 — dividers, strokes -->
+
+    <!-- ── Base (kept for system compatibility) ──────────────────────────────── -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+</resources>

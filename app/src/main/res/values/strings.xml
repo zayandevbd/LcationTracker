@@ -1,9 +1,7 @@
 <resources>
 
-    <!-- ── App ──────────────────────────────────────────────────────────────── -->
     <string name="app_name">Location Tracker</string>
 
-    <!-- ── MainActivity ─────────────────────────────────────────────────────── -->
     <string name="btn_start_tracking">Start Tracking</string>
     <string name="btn_stop_tracking">Stop Tracking</string>
     <string name="btn_history">History</string>
@@ -13,15 +11,11 @@
     <string name="label_interval_static">Interval:</string>
     <string name="label_last_location">Last Known Location</string>
 
-    <!-- %s = interval label e.g. "5 minutes" -->
     <string name="label_interval">Interval: %s</string>
 
-    <!-- %.6f format args for lat/lon double values -->
     <string name="label_latitude">Latitude:  %.6f°</string>
     <string name="label_longitude">Longitude:  %.6f°</string>
-    <!-- %.1f format arg for accuracy float -->
     <string name="label_accuracy">Accuracy:  ±%.1f m</string>
-    <!-- %s format arg for formatted time string -->
     <string name="label_time">Time:  %s</string>
 
     <string name="placeholder_latitude">Latitude: —</string>
@@ -34,16 +28,13 @@
     <string name="toast_already_tracking">Tracking is already started</string>
     <string name="toast_not_tracking">Tracking is not started yet</string>
 
-    <!-- Default interval label shown before any user selection -->
     <string name="interval_5_min">5 minutes</string>
 
-    <!-- ── HistoryActivity ───────────────────────────────────────────────────── -->
     <string name="title_history">Location History</string>
     <string name="empty_history_message">No location records yet.</string>
     <string name="empty_history_hint">Start tracking to begin recording your location history.</string>
     <string name="menu_clear_history">Clear All</string>
 
-    <!-- ── SettingsActivity ──────────────────────────────────────────────────── -->
     <string name="title_settings">Settings</string>
     <string name="settings_interval_title">Location Update Interval</string>
     <string name="settings_interval_description">
@@ -51,9 +42,7 @@
         Shorter intervals are more precise but use more battery.
     </string>
     <string name="settings_spinner_label">Select interval</string>
-    <!-- %s = current interval label -->
     <string name="settings_current_interval">Currently active: %s</string>
-    <!-- %s = newly saved interval label -->
     <string name="settings_interval_saved">Interval updated to %s</string>
     <string name="settings_interval_info">
         Changes take effect immediately without restarting the app.
@@ -63,15 +52,11 @@
     <string name="settings_service_running">● Service running</string>
     <string name="settings_service_stopped">● Service stopped</string>
 
-    <!-- ── Notification ──────────────────────────────────────────────────────── -->
     <string name="notification_title_tracking">Location Tracking Active</string>
     <string name="notification_text_waiting">Waiting for first location fix…</string>
-    <!-- %.6f, %.6f, %s = lat, lon, time -->
     <string name="notification_text_location">%.6f°, %.6f°  •  %s</string>
 
-    <!-- ── Dialogs ───────────────────────────────────────────────────────────── -->
 
-    <!-- GPS disabled -->
     <string name="dialog_gps_disabled_title">Location Services Disabled</string>
     <string name="dialog_gps_disabled_message">
         Location services are turned off on your device.
@@ -79,7 +64,6 @@
     </string>
     <string name="dialog_open_settings">Open Settings</string>
 
-    <!-- Battery optimization -->
     <string name="dialog_battery_title">Battery Optimization</string>
     <string name="dialog_battery_message">
         For reliable background tracking, please exclude this app from
@@ -88,14 +72,12 @@
     </string>
     <string name="dialog_skip">Skip</string>
 
-    <!-- Permission permanently denied -->
     <string name="dialog_permission_denied_title">Permission Required</string>
     <string name="dialog_permission_denied_message">
         Location permission has been permanently denied.
         Please open App Settings and grant location access manually.
     </string>
 
-    <!-- Clear history confirmation -->
     <string name="dialog_clear_history_title">Clear All History</string>
     <string name="dialog_clear_history_message">
         This will permanently delete all recorded location history.
@@ -105,7 +87,6 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_continue">Continue</string>
 
-    <!-- ── Permission Rationale ──────────────────────────────────────────────── -->
     <string name="permission_location_rationale_title">Location Permission Needed</string>
     <string name="permission_location_rationale_message">
         This app needs access to your location to track and record

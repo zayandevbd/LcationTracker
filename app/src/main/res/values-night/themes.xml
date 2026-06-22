@@ -5,10 +5,8 @@
         <item name="colorPrimaryDark">@color/color_primary</item>
         <item name="colorAccent">@color/color_accent</item>
 
-        <!-- Dark window background -->
         <item name="android:windowBackground">@color/background_main</item>
 
-        <!-- Dark mode status bar — use a dark surface color -->
         <item name="android:statusBarColor">@color/background_main</item>
     </style>
 

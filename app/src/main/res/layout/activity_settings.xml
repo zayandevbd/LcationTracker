@@ -8,8 +8,6 @@
     android:background="@color/background_main"
     tools:context=".ui.settings.SettingsActivity">
 
-    <!-- ── Toolbar ───────────────────────────────────────────────────────── -->
-
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +24,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- ── Settings Content ──────────────────────────────────────────────── -->
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -41,7 +38,6 @@
             android:paddingTop="20dp"
             android:paddingBottom="32dp">
 
-            <!-- ── Interval Setting Card ─────────────────────────────────── -->
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -56,7 +52,6 @@
                     android:orientation="vertical"
                     android:padding="16dp">
 
-                    <!-- Section title -->
                     <TextView
                         android:id="@+id/tv_interval_section_title"
                         android:layout_width="match_parent"
@@ -65,7 +60,6 @@
                         android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                         android:textColor="@color/color_primary" />
 
-                    <!-- Description -->
                     <TextView
                         android:id="@+id/tv_interval_description"
                         android:layout_width="match_parent"
@@ -75,7 +69,6 @@
                         android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                         android:textColor="@color/text_secondary" />
 
-                    <!-- Divider -->
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
@@ -83,7 +76,6 @@
                         android:layout_marginBottom="12dp"
                         android:background="@color/divider_color" />
 
-                    <!-- Spinner label -->
                     <TextView
                         android:id="@+id/tv_spinner_label"
                         android:layout_width="match_parent"
@@ -92,7 +84,6 @@
                         android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
                         android:textColor="@color/text_primary" />
 
-                    <!-- Interval Spinner -->
                     <Spinner
                         android:id="@+id/spinner_interval"
                         android:layout_width="match_parent"
@@ -105,7 +96,6 @@
                         android:contentDescription="@string/settings_spinner_label"
                         tools:listitem="@android:layout/simple_spinner_item" />
 
-                    <!-- Currently active interval display -->
                     <TextView
                         android:id="@+id/tv_current_interval_value"
                         android:layout_width="match_parent"
@@ -119,7 +109,6 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- ── Info Card ──────────────────────────────────────────────── -->
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"

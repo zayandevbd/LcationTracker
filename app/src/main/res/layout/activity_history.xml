@@ -8,7 +8,6 @@
     android:background="@color/background_main"
     tools:context=".ui.history.HistoryActivity">
 
-    <!-- ── AppBar ────────────────────────────────────────────────────────── -->
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar_history"
@@ -30,7 +29,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- ── Content ───────────────────────────────────────────────────────── -->
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -41,7 +39,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <!-- Loading spinner — shown while Room LiveData delivers first result -->
             <ProgressBar
                 android:id="@+id/progress_loading"
                 style="?android:attr/progressBarStyle"
@@ -55,7 +52,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:visibility="gone" />
 
-            <!-- Location history list — hidden until data arrives -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_history"
                 android:layout_width="0dp"
@@ -74,7 +70,6 @@
                 tools:visibility="visible"
                 tools:itemCount="6" />
 
-            <!-- Empty state — shown only after data loads AND list is empty -->
             <LinearLayout
                 android:id="@+id/layout_empty_state"
                 android:layout_width="0dp"
@@ -88,7 +83,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
-                <!-- Simple map-pin icon drawable instead of emoji -->
                 <ImageView
                     android:layout_width="64dp"
                     android:layout_height="64dp"

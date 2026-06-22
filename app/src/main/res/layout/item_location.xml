@@ -18,9 +18,6 @@
         android:paddingHorizontal="16dp"
         android:paddingVertical="12dp">
 
-        <!-- ── Timestamp row ──────────────────────────────────────────────── -->
-
-        <!-- Small dot indicator — visually separates each card entry -->
         <View
             android:id="@+id/view_dot_indicator"
             android:layout_width="8dp"
@@ -43,7 +40,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="21 Jun 2026  14:32:01" />
 
-        <!-- ── Divider ────────────────────────────────────────────────────── -->
 
         <View
             android:id="@+id/divider_item"
@@ -55,9 +51,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- ── Coordinates row ────────────────────────────────────────────── -->
 
-        <!-- Latitude — left half -->
         <TextView
             android:id="@+id/tv_item_latitude"
             android:layout_width="0dp"
@@ -70,7 +64,6 @@
             app:layout_constraintEnd_toStartOf="@id/tv_item_longitude"
             tools:text="Lat: 37.421998°" />
 
-        <!-- Longitude — right half -->
         <TextView
             android:id="@+id/tv_item_longitude"
             android:layout_width="0dp"
@@ -83,9 +76,6 @@
             app:layout_constraintEnd_toEndOf="parent"
             tools:text="Lon: -122.084°" />
 
-        <!-- ── Accuracy + Provider row ────────────────────────────────────── -->
-
-        <!-- Accuracy — left half -->
         <TextView
             android:id="@+id/tv_item_accuracy"
             android:layout_width="0dp"
@@ -98,7 +88,6 @@
             app:layout_constraintEnd_toStartOf="@id/tv_item_provider"
             tools:text="Accuracy: ±5.0 m" />
 
-        <!-- Provider — right half -->
         <TextView
             android:id="@+id/tv_item_provider"
             android:layout_width="0dp"

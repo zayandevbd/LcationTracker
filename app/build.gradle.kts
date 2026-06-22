@@ -19,8 +19,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
-        // Room schema export directory — useful for migration testing and tracking
-        // schema changes in version control. Points to a folder in the project root.
         javaCompileOptions {
             annotationProcessorOptions {
                 arguments += mapOf(
@@ -49,10 +47,7 @@ android {
     }
 
     buildFeatures {
-        // ViewBinding: eliminates findViewById, gives compile-time null safety on views.
-        // Correct approach for XML-based UI in Java projects.
         viewBinding = true
-        // BuildConfig: lets us gate debug logging behind BuildConfig.DEBUG
         buildConfig = true
     }
 
@@ -62,11 +57,8 @@ android {
     }
 
     lint {
-        // Treat lint warnings as errors in release builds to catch issues early
         abortOnError = false
         checkReleaseBuilds = true
-        // Baseline file so existing warnings don't block builds while we fix them
-        // baseline = file("lint-baseline.xml")
     }
 
     // Exclude duplicate META-INF files that sometimes conflict with Google Play Services
@@ -79,7 +71,6 @@ android {
 
 dependencies {
 
-    // ─── AndroidX Core ──────────────────────────────────────────────────────
     implementation(libs.appcompat)
     implementation(libs.core)
     implementation(libs.activity)
@@ -89,25 +80,24 @@ dependencies {
     implementation(libs.cardview)
     implementation(libs.localbroadcastmanager)
 
-    // ─── Material Design Components ─────────────────────────────────────────
+    //  Material Design Components
     implementation(libs.material)
 
-    // ─── Lifecycle: ViewModel + LiveData ────────────────────────────────────
-    // Using Java-specific artifacts — no Kotlin coroutines overhead
+    // Lifecycle: ViewModel + LiveData
     implementation(libs.lifecycle.viewmodel)
     implementation(libs.lifecycle.livedata)
     implementation(libs.lifecycle.runtime)
     implementation(libs.lifecycle.common.java8)
 
-    // ─── Room: Local Database ───────────────────────────────────────────────
+    // Room: Local Database
     implementation(libs.room.runtime)
     // annotationProcessor (not kapt) — this is a Java-only project
     annotationProcessor(libs.room.compiler)
 
-    // ─── Google Play Services: Location ─────────────────────────────────────
+    // Google Play Services: Location
     implementation(libs.play.services.location)
 
-    // ─── Testing ────────────────────────────────────────────────────────────
+    //  Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

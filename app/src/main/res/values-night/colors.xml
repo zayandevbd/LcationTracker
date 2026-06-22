@@ -1,26 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-    Dark mode color overrides.
-    Only values that need to change in dark theme are listed here.
-    The system automatically uses these when the device is in dark mode.
--->
 <resources>
 
-    <!-- ── Backgrounds ───────────────────────────────────────────────────────── -->
-    <color name="background_main">#121212</color>      <!-- Material dark background -->
-    <color name="surface_card">#1E1E1E</color>         <!-- Elevated surface in dark mode -->
-    <color name="surface_info">#0D2137</color>         <!-- Dark blue tint for info cards -->
+    <color name="background_main">#121212</color>
+    <color name="surface_card">#1E1E1E</color>
+    <color name="surface_info">#0D2137</color>
 
-    <!-- ── Text Hierarchy ────────────────────────────────────────────────────── -->
-    <color name="text_primary">#EEEEEE</color>         <!-- Near-white for dark backgrounds -->
-    <color name="text_secondary">#BDBDBD</color>       <!-- Lighter grey for secondary text -->
-    <color name="text_hint">#757575</color>            <!-- Dimmer hint text -->
+    <color name="text_primary">#EEEEEE</color>
+    <color name="text_secondary">#BDBDBD</color>
+    <color name="text_hint">#757575</color>
 
-    <!-- ── Dividers ──────────────────────────────────────────────────────────── -->
-    <color name="divider_color">#2C2C2C</color>        <!-- Subtle dividers on dark surfaces -->
+    <color name="divider_color">#2C2C2C</color>
 
-    <!-- ── Status ────────────────────────────────────────────────────────────── -->
-    <color name="status_active">#66BB6A</color>        <!-- Brighter green readable on dark -->
-    <color name="status_inactive">#9E9E9E</color>      <!-- Lighter grey on dark backgrounds -->
+    <color name="status_active">#66BB6A</color>
+    <color name="status_inactive">#9E9E9E</color>
 
 </resources>

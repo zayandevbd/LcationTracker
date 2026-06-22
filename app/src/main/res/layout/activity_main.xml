@@ -16,7 +16,6 @@
         android:paddingTop="24dp"
         android:paddingBottom="32dp">
 
-        <!-- ── App Title ─────────────────────────────────────────────────── -->
 
         <TextView
             android:id="@+id/tv_app_title"
@@ -31,7 +30,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- ── Status Card ──────────────────────────────────────────────── -->
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_status"
@@ -50,7 +48,6 @@
                 android:layout_height="wrap_content"
                 android:padding="16dp">
 
-                <!-- Tracking Status Label -->
                 <TextView
                     android:id="@+id/tv_status_label"
                     android:layout_width="wrap_content"
@@ -62,7 +59,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/tv_interval_label" />
 
-                <!-- Tracking Status Value — observed via LiveData -->
                 <TextView
                     android:id="@+id/tv_tracking_status"
                     android:layout_width="wrap_content"
@@ -76,7 +72,6 @@
                     app:layout_constraintBaseline_toBaselineOf="@id/tv_status_label"
                     tools:text="● Active" />
 
-                <!-- Interval Label -->
                 <TextView
                     android:id="@+id/tv_interval_label"
                     android:layout_width="wrap_content"
@@ -88,7 +83,6 @@
                     app:layout_constraintTop_toBottomOf="@id/tv_status_label"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <!-- Current Interval Value -->
                 <TextView
                     android:id="@+id/tv_current_interval"
                     android:layout_width="wrap_content"
@@ -104,7 +98,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ── Location Data Card (hidden until first fix) ──────────────── -->
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_location_data"
@@ -192,9 +185,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- ── Control Buttons ───────────────────────────────────────────── -->
 
-        <!-- Start Tracking Button — green, white text, white icon always -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_start_tracking"
             android:layout_width="0dp"
@@ -232,7 +223,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!-- ── Navigation Row — 16dp gap between History and Settings ───── -->
 
         <LinearLayout
             android:id="@+id/layout_nav_row"
@@ -244,7 +234,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent">
 
-            <!-- History Button — takes half the available width -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_open_history"
                 style="@style/Widget.Material3.Button.OutlinedButton"
@@ -257,12 +246,10 @@
                 app:iconGravity="textStart"
                 app:cornerRadius="10dp" />
 
-            <!-- Explicit 16dp gap — replaces the old 8dp invisible View -->
             <Space
                 android:layout_width="16dp"
                 android:layout_height="match_parent" />
 
-            <!-- Settings Button — takes the other half -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_open_settings"
                 style="@style/Widget.Material3.Button.OutlinedButton"

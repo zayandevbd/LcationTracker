@@ -30,27 +30,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Main screen — entry point and primary control surface for location tracking.
- *
- * Responsibilities:
- *  - Request all required permissions via PermissionManager
- *  - Start / stop the LocationTrackingService via ServiceUtils
- *  - Observe ViewModel LiveData to keep UI in sync
- *  - Register/unregister LocalBroadcast receiver for real-time service updates
- *  - Check GPS state on resume and prompt user if disabled
- *  - Navigate to HistoryActivity and SettingsActivity
- *  - Show battery optimization guidance
- *
- * The Activity owns no tracking logic — it delegates everything to the
- * ViewModel and ServiceUtils, keeping itself as a pure UI controller.
- */
 public class MainActivity extends AppCompatActivity
         implements PermissionManager.PermissionCallback {
 
     private static final String TAG = Constants.LOG_TAG + "/MainActivity";
-
-    // ─── View Binding & ViewModel ─────────────────────────────────────────────
 
     private ActivityMainBinding binding;
     private LocationViewModel viewModel;
@@ -60,12 +43,9 @@ public class MainActivity extends AppCompatActivity
     private final SimpleDateFormat timeFormatter =
             new SimpleDateFormat("HH:mm:ss dd/MM/yyyy", Locale.getDefault());
 
-    // ─── Lifecycle ────────────────────────────────────────────────────────────
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // ── CRITICAL: register launchers BEFORE setContentView ──
-        // ActivityResultLauncher must be registered before Activity reaches STARTED.
+        // launchers must be registered before STARTED state
         permissionManager = new PermissionManager(this, this);
         permissionManager.registerLaunchers();
 
@@ -79,8 +59,6 @@ public class MainActivity extends AppCompatActivity
         setupViewModel();
         setupClickListeners();
         observeViewModel();
-
-        // Sync UI with actual service state on (re)launch.
         syncTrackingState();
     }
 
@@ -91,7 +69,6 @@ public class MainActivity extends AppCompatActivity
         syncTrackingState();
         updateIntervalDisplay();
 
-        // Check GPS — user may have disabled it while we were backgrounded.
         if (viewModel.isCurrentlyTracking() && !ServiceUtils.isLocationEnabled(this)) {
             showGpsDisabledDialog();
         }
@@ -109,8 +86,6 @@ public class MainActivity extends AppCompatActivity
         binding = null;
     }
 
-    // ─── ViewModel Setup ──────────────────────────────────────────────────────
-
     private void setupViewModel() {
         LocationRepository repository = LocationRepository.getInstance(this);
         LocationViewModelFactory factory = new LocationViewModelFactory(repository);
@@ -118,28 +93,20 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void observeViewModel() {
-        // Tracking state → update button labels and status chip.
-        viewModel.isTracking().observe(this, isTracking -> {
-            updateTrackingUI(isTracking != null && isTracking);
-        });
+        viewModel.isTracking().observe(this, isTracking ->
+                updateTrackingUI(isTracking != null && isTracking));
 
-        // Latest location → update the coordinates display.
         viewModel.getLatestLocation().observe(this, location -> {
             if (location != null) {
                 String timeStr = timeFormatter.format(new Date(location.getTimestamp()));
-                binding.tvCurrentLat.setText(
-                        getString(R.string.label_latitude, location.getLatitude()));
-                binding.tvCurrentLon.setText(
-                        getString(R.string.label_longitude, location.getLongitude()));
-                binding.tvCurrentTime.setText(
-                        getString(R.string.label_time, timeStr));
-                binding.tvCurrentAccuracy.setText(
-                        getString(R.string.label_accuracy, location.getAccuracy()));
+                binding.tvCurrentLat.setText(getString(R.string.label_latitude, location.getLatitude()));
+                binding.tvCurrentLon.setText(getString(R.string.label_longitude, location.getLongitude()));
+                binding.tvCurrentTime.setText(getString(R.string.label_time, timeStr));
+                binding.tvCurrentAccuracy.setText(getString(R.string.label_accuracy, location.getAccuracy()));
                 binding.cardLocationData.setVisibility(View.VISIBLE);
             }
         });
 
-        // Status messages → show as a dialog or Snackbar.
         viewModel.getStatusMessage().observe(this, message -> {
             if (message != null && !message.isEmpty()) {
                 showInfoSnackbar(message);
@@ -147,13 +114,8 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        // Current interval → update interval display.
-        viewModel.getCurrentIntervalMs().observe(this, intervalMs -> {
-            updateIntervalDisplay();
-        });
+        viewModel.getCurrentIntervalMs().observe(this, intervalMs -> updateIntervalDisplay());
     }
-
-    // ─── Click Listeners ─────────────────────────────────────────────────────
 
     private void setupClickListeners() {
         binding.btnStartTracking.setOnClickListener(v -> onStartTrackingClicked());
@@ -167,21 +129,14 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(this, getString(R.string.toast_already_tracking), Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // Check GPS first — show dialog if disabled.
         if (!ServiceUtils.isLocationEnabled(this)) {
             showGpsDisabledDialog();
             return;
         }
-
-        // Show battery optimization guidance if not already whitelisted.
         if (!ServiceUtils.isIgnoringBatteryOptimizations(this)) {
             showBatteryOptimizationDialog();
-            // Continue with permission request regardless — battery whitelist
-            // is advisory, not a hard requirement.
+            // advisory only — continue with permissions regardless
         }
-
-        // Kick off the permission flow — service starts in onAllPermissionsGranted().
         permissionManager.requestAllPermissions();
     }
 
@@ -194,8 +149,6 @@ public class MainActivity extends AppCompatActivity
         viewModel.setTracking(false);
         updateTrackingUI(false);
     }
-
-    // ─── PermissionManager.PermissionCallback ────────────────────────────────
 
     @Override
     public void onAllPermissionsGranted() {
@@ -218,22 +171,17 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onBackgroundLocationDenied(boolean isPermanentlyDenied) {
         Log.w(TAG, "onBackgroundLocationDenied: permanent=" + isPermanentlyDenied);
-        // Tracking continues in foreground mode — inform the user.
+        // tracking continues in foreground mode
         showInfoSnackbar(getString(R.string.permission_background_denied_message));
     }
-
-    // ─── UI Updates ───────────────────────────────────────────────────────────
 
     private void updateTrackingUI(boolean isTracking) {
         if (binding == null) return;
 
-        // Keep BOTH buttons always enabled so click listeners always fire.
-        // State is communicated via alpha (opacity) and icon, not disabled state.
-        // This ensures the Toast fires even when the user taps the "wrong" button.
+        // both buttons stay enabled so the toast always fires on wrong-button taps;
         binding.btnStartTracking.setAlpha(isTracking ? 0.5f : 1.0f);
         binding.btnStopTracking.setAlpha(isTracking ? 1.0f : 0.5f);
 
-        // Swap icons to reflect current state
         if (isTracking) {
             binding.btnStartTracking.setIconResource(R.drawable.ic_location_notification);
             binding.btnStopTracking.setIconResource(R.drawable.ic_stop);
@@ -242,30 +190,23 @@ public class MainActivity extends AppCompatActivity
             binding.btnStopTracking.setIconResource(R.drawable.ic_stop);
         }
 
-        binding.tvTrackingStatus.setText(
-                isTracking
-                        ? getString(R.string.status_tracking_active)
-                        : getString(R.string.status_tracking_inactive)
-        );
+        binding.tvTrackingStatus.setText(isTracking
+                ? getString(R.string.status_tracking_active)
+                : getString(R.string.status_tracking_inactive));
 
-        int statusColor = isTracking
+        binding.tvTrackingStatus.setTextColor(isTracking
                 ? getColor(R.color.status_active)
-                : getColor(R.color.status_inactive);
-        binding.tvTrackingStatus.setTextColor(statusColor);
+                : getColor(R.color.status_inactive));
 
-        if (!isTracking) {
-            // Only hide the location card if we have no cached location to show.
-            // On rotation with service stopped, we still want to display the last fix.
-            if (viewModel.getLatestLocation().getValue() == null) {
-                binding.cardLocationData.setVisibility(View.GONE);
-            }
+        if (!isTracking && viewModel.getLatestLocation().getValue() == null) {
+            binding.cardLocationData.setVisibility(View.GONE);
         }
     }
 
     private void updateIntervalDisplay() {
         if (binding == null) return;
-        String label = appSettings.getIntervalLabel();
-        binding.tvCurrentInterval.setText(getString(R.string.label_interval, label));
+        binding.tvCurrentInterval.setText(
+                getString(R.string.label_interval, appSettings.getIntervalLabel()));
     }
 
     private void syncTrackingState() {
@@ -273,8 +214,6 @@ public class MainActivity extends AppCompatActivity
         viewModel.setTracking(serviceRunning);
         updateTrackingUI(serviceRunning);
     }
-
-    // ─── Dialogs ──────────────────────────────────────────────────────────────
 
     private void showGpsDisabledDialog() {
         new AlertDialog.Builder(this)
@@ -313,8 +252,6 @@ public class MainActivity extends AppCompatActivity
                 .show();
     }
 
-    // ─── Navigation ───────────────────────────────────────────────────────────
-
     private void openHistory() {
         startActivity(new Intent(this, HistoryActivity.class));
     }
@@ -323,13 +260,7 @@ public class MainActivity extends AppCompatActivity
         startActivity(new Intent(this, SettingsActivity.class));
     }
 
-    // ─── LocalBroadcast Receiver ─────────────────────────────────────────────
-
-    /**
-     * Receives live location updates and tracking status changes from the service.
-     * Registered in onResume(), unregistered in onPause() — active only while
-     * the Activity is visible.
-     */
+    // active only while the activity is visible
     private final BroadcastReceiver serviceReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -344,14 +275,10 @@ public class MainActivity extends AppCompatActivity
                 String timeStr = timeFormatter.format(new Date(timestamp));
 
                 if (binding != null) {
-                    binding.tvCurrentLat.setText(
-                            getString(R.string.label_latitude, lat));
-                    binding.tvCurrentLon.setText(
-                            getString(R.string.label_longitude, lon));
-                    binding.tvCurrentTime.setText(
-                            getString(R.string.label_time, timeStr));
-                    binding.tvCurrentAccuracy.setText(
-                            getString(R.string.label_accuracy, accuracy));
+                    binding.tvCurrentLat.setText(getString(R.string.label_latitude, lat));
+                    binding.tvCurrentLon.setText(getString(R.string.label_longitude, lon));
+                    binding.tvCurrentTime.setText(getString(R.string.label_time, timeStr));
+                    binding.tvCurrentAccuracy.setText(getString(R.string.label_accuracy, accuracy));
                     binding.cardLocationData.setVisibility(View.VISIBLE);
                 }
 
@@ -367,14 +294,12 @@ public class MainActivity extends AppCompatActivity
         IntentFilter filter = new IntentFilter();
         filter.addAction(Constants.ACTION_LOCATION_UPDATE);
         filter.addAction(Constants.ACTION_TRACKING_STATUS_CHANGED);
-        LocalBroadcastManager.getInstance(this)
-                .registerReceiver(serviceReceiver, filter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(serviceReceiver, filter);
         Log.d(TAG, "Service broadcast receiver registered.");
     }
 
     private void unregisterServiceBroadcastReceiver() {
-        LocalBroadcastManager.getInstance(this)
-                .unregisterReceiver(serviceReceiver);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(serviceReceiver);
         Log.d(TAG, "Service broadcast receiver unregistered.");
     }
 }

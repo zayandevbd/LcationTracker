@@ -11,7 +11,7 @@ A production-quality background location tracking application for Android, built
   - Screen off
   - App removed from Recents
   - Device reboot
-- Configurable update interval: 1, 3, 5, 10, 15, or 30 minutes
+- Configurable update interval: 5, 10, 15, or 30 minutes
 - Changes apply immediately without restarting the service
 - Persistent foreground service with live notification
 - Full location history stored in Room database

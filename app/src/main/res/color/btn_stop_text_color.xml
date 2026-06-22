@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Text/icon color for the Stop Tracking button.
+    White in ALL states — enabled and disabled.
+    MaterialButton's default disabled text color is semi-transparent grey,
+    which overrides android:textColor. A ColorStateList selector forces white
+    regardless of enabled state.
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_enabled="false" android:color="@color/white" />
+    <item android:color="@color/white" />
+</selector>

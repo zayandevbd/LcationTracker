@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Animated ripple/pulse ring used behind the status indicator when tracking is active.
+    This is the outer ring that scales up and fades out repeatedly.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="#442E7D32" />
+</shape>

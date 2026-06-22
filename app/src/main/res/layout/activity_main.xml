@@ -213,12 +213,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
-        <!--
-            Stop Tracking Button — red background, white text/icon ALWAYS.
-            MaterialButton overrides textColor with a semi-transparent grey when
-            disabled by default. We fix this with a ColorStateList in @color/btn_stop_text_color
-            that forces white in both enabled and disabled states.
-        -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_stop_tracking"
             android:layout_width="0dp"
@@ -227,7 +221,7 @@
             android:text="@string/btn_stop_tracking"
             android:textSize="16sp"
             android:textColor="@color/btn_stop_text_color"
-            android:enabled="false"
+            android:alpha="0.5"
             android:contentDescription="@string/btn_stop_tracking"
             app:icon="@drawable/ic_stop"
             app:iconGravity="textStart"

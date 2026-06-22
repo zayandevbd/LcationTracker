@@ -227,12 +227,13 @@ public class MainActivity extends AppCompatActivity
     private void updateTrackingUI(boolean isTracking) {
         if (binding == null) return;
 
-        binding.btnStartTracking.setEnabled(!isTracking);
-        binding.btnStopTracking.setEnabled(isTracking);
+        // Keep BOTH buttons always enabled so click listeners always fire.
+        // State is communicated via alpha (opacity) and icon, not disabled state.
+        // This ensures the Toast fires even when the user taps the "wrong" button.
+        binding.btnStartTracking.setAlpha(isTracking ? 0.5f : 1.0f);
+        binding.btnStopTracking.setAlpha(isTracking ? 1.0f : 0.5f);
 
-        // Swap icons to reflect state clearly:
-        // When tracking: Start shows location-pin (running indicator), Stop shows stop-square
-        // When stopped:  Start shows play-arrow, Stop shows play-arrow (dimmed, disabled)
+        // Swap icons to reflect current state
         if (isTracking) {
             binding.btnStartTracking.setIconResource(R.drawable.ic_location_notification);
             binding.btnStopTracking.setIconResource(R.drawable.ic_stop);

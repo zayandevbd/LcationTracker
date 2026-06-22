@@ -8,7 +8,7 @@ A production-quality background location tracking application for Android, built
 
 ▶ **Watch Demo Video**
 
-[Click here to view demo](media/Location-demo.mp4)
+[Click here to view demo](https://github.com/zayandevbd/LcationTracker/blob/main/media/Location-demo.mp4)
 ## Features
 
 - Continuous background location tracking that survives:
